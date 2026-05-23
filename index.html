@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <title>LAPIN DESIGNER</title>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta content="Portfólio Lapin Designer - Logotipos, GIFs e Design Visual Profissional" name="description"/>
+  <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <style>
+    /* ===== BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    body, h1, h2, h3, h4, h5, h6 { font-family: "Montserrat", sans-serif; }
+
+    /* ===== SIDEBAR ===== */
+    .w3-sidebar {
+      width: 120px;
+      background: #111;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      overflow-y: auto;
+      z-index: 100;
+    }
+    .w3-sidebar a { color: #aaa; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .w3-sidebar a:hover, .w3-sidebar a.active { background: #333; color: #fff; }
+    .w3-sidebar img { width: 100%; display: block; }
+
+    /* ===== MAIN CONTENT ===== */
+    #main { margin-left: 120px; }
+    @media only screen and (max-width: 600px) {
+      #main { margin-left: 0; padding-top: 48px; }
+      .w3-sidebar { display: none; }
+    }
+
+    /* ===== MOBILE NAV ===== */
+    #myNavbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 200;
+    }
+    #myNavbar .w3-bar-item {
+      font-size: 11px;
+      padding: 12px 4px;
+    }
+
+    /* ===== GIF / IMAGE CARDS ===== */
+    .gif-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #1a1a1a;
+    }
+    .gif-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+    }
+    .gif-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .gif-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: #fff;
+      padding: 16px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .gif-container:hover .gif-overlay { transform: translateY(0); }
+
+    /* ===== SKILL BARS ===== */
+    .skill-label { margin: 12px 0 4px; font-weight: 700; color: #ccc; }
+    .skill-bar-bg { background: #333; border-radius: 4px; overflow: hidden; height: 28px; margin-bottom: 8px; }
+    .skill-bar-fill { height: 100%; background: #555; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; color: #fff; font-size: 13px; }
+
+    /* ===== STATS ROW ===== */
+    .stats-row { background: #1e1e1e; border-radius: 8px; margin: 24px 0; }
+    .stats-row .w3-quarter { padding: 20px 0; }
+    .stats-row .w3-xlarge { font-size: 2rem; font-weight: 700; color: #fff; }
+    .stats-row p { color: #aaa; font-size: 12px; margin: 4px 0 0; letter-spacing: 1px; }
+
+    /* ===== PRICING CARDS ===== */
+    .pricing-card { border-radius: 8px; overflow: hidden; }
+    .pricing-card li { border-bottom: 1px solid #eee; }
+    .pricing-card li:last-child { border-bottom: none; }
+
+    /* ===== CONTACT FORM ===== */
+    .contact-input {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #ddd;
+      border-radius: 4px;
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    .contact-input:focus { outline: none; border-color: #666; }
+    .contact-input::placeholder { color: #666; }
+
+    /* ===== FOOTER ===== */
+    footer { border-top: 1px solid #222; }
+    footer a img { width: 38px; height: 38px; margin: 0 8px; opacity: 0.7; transition: opacity 0.2s; }
+    footer a img:hover { opacity: 1; }
+
+    /* ===== SECTION DIVIDER ===== */
+    hr.section-hr { border: none; border-top: 1px solid #333; width: 200px; margin: 12px 0 24px; }
+
+    /* ===== HEADER ===== */
+    #home { border-bottom: 1px solid #1f1f1f; }
+    #home img { max-width: 320px; height: auto; margin-top: 24px; }
+
+    /* ===== RESUME BUTTON ===== */
+    .btn-resume {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #2a2a2a;
+      color: #ddd;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 12px 24px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-family: "Montserrat", sans-serif;
+    }
+    .btn-resume:hover { background: #444; color: #fff; }
+
+    /* ===== SEND BUTTON ===== */
+    .btn-send {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: #111;
+      border: none;
+      border-radius: 4px;
+      padding: 14px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 1px;
+      font-family: "Montserrat", sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-send:hover { background: #ddd; }
+
+    /* ===== GALLERY HEADER IMAGE ===== */
+    .gallery-logo-header { text-align: center; margin-bottom: 32px; }
+    .gallery-logo-header img { max-width: 120px; height: auto; }
+
+    /* ===== FAIXA ANIMADA ===== */
+    .faixa-wrapper {
+      width: 100%;
+      height: 68px;
+      background: #1E93FA;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      position: relative;
+      margin: 28px 0 36px;
+    }
+    .faixa-track {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: scroll-left 80s linear infinite;
+      will-change: transform;
+    }
+    .faixa-track span {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 27px;
+      line-height: 64px;
+      color: #FFFFFF;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0 80px;
+      display: inline-block;
+    }
+    @keyframes scroll-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body class="w3-black">
+
+  <!-- ===================== SIDEBAR (desktop) ===================== -->
+  <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+    <img alt="Lapin logo" src="https://i.postimg.cc/RFWkNQb8/png-1.png"/>
+    <a class="w3-bar-item w3-button w3-padding-large active" href="#home">
+      <i class="fa fa-home w3-xxlarge"></i>
+      <p>HOME</p>
+    </a>
+    <a class="w3-bar-item w3-button w3-padding-large" href="#about">
+      <i class="fa fa-user w3-xxlarge"></i>
+      <p>SOBRE</p>
+    </a>
+    <a class="w3-bar-item w3-button w3-padding-large" href="#gallery">
+      <i class="fa fa-eye w3-xxlarge"></i>
+      <p>GALLERY</p>
+    </a>
+    <a class="w3-bar-item w3-button w3-padding-large" href="#gallery-logo-lapin">
+      <i class="fa fa-image w3-xxlarge"></i>
+      <p>LOGO<br/>LAPIN</p>
+    </a>
+    <a class="w3-bar-item w3-button w3-padding-large" href="#contact">
+      <i class="fa fa-envelope w3-xxlarge"></i>
+      <p>CONTACT</p>
+    </a>
+  </nav>
+
+  <!-- ===================== MOBILE NAV ===================== -->
+  <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+    <div class="w3-bar w3-black w3-center" style="border-bottom:1px solid #222;">
+      <a class="w3-bar-item w3-button" href="#home"    style="width:20%">HOME</a>
+      <a class="w3-bar-item w3-button" href="#about"   style="width:20%">SOBRE</a>
+      <a class="w3-bar-item w3-button" href="#gallery" style="width:20%">GALLERY</a>
+      <a class="w3-bar-item w3-button" href="#gallery-logo-lapin" style="width:20%">LOGOS</a>
+      <a class="w3-bar-item w3-button" href="#contact" style="width:20%">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- ===================== PAGE CONTENT ===================== -->
+  <div class="w3-padding-large" id="main">
+
+    <!-- ===== HEADER / HOME ===== -->
+    <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+      <h1 class="w3-jumbo">LAPIN DESIGNER.</h1>
+      <p style="color:#aaa; letter-spacing:2px; font-size:14px;">DESIGNER DE LOGOTIPO</p>
+      <img alt="Lapin logo" class="w3-image" loading="lazy"
+           src="https://i.postimg.cc/RFWkNQb8/png-1.png"/>
+    </header>
+
+    <!-- ===== ABOUT ===== -->
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+      <h2 class="w3-text-light-grey">SOU LAPIN</h2>
+      <hr class="section-hr"/>
+
+      <p>O <strong style="color:#ddd;">Lapin Designer</strong> é um estúdio criativo dedicado a transformar ideias em identidade visual marcante. Especialista em logotipos, desenvolve marcas únicas que comunicam profissionalismo e autenticidade.
+      Com cartões de visita, garante impacto e elegância no primeiro contato com seus clientes.
+      Na criação de banners, oferece soluções visuais modernas para destacar sua marca em qualquer ocasião. Também desenvolve sites personalizados, unindo design atraente e funcionalidade.
+      O objetivo é valorizar a imagem do cliente, sempre com qualidade e criatividade.
+      Cada projeto é pensado para transmitir confiança e profissionalismo. O Lapin Designer trabalha com foco em detalhes que fazem diferença. A missão é fortalecer marcas no ambiente físico e digital.
+      Se você busca presença forte e diferenciada, o Lapin Designer é a escolha certa.</p>
+
+      <!-- ===== FAIXA ANIMADA ===== -->
+      <div class="faixa-wrapper">
+        <div class="faixa-track" id="track"></div>
+      </div>
+      <script>
+        const TEXTO = "CRIANDO LOGOTIPO";
+        const track = document.getElementById('track');
+        const repetitions = 20;
+        let html = '';
+        for (let i = 0; i < repetitions; i++) {
+          html += `<span>${TEXTO}</span>`;
+        }
+        track.innerHTML = html;
+      </script>
+
+      <!-- Skill Bars -->
+      <h3 class="w3-padding-16 w3-text-light-grey" style="margin-top:32px;">Minhas artes</h3>
+
+      <p class="skill-label">Logos</p>
+      <div class="skill-bar-bg">
+        <div class="skill-bar-fill" style="width:95%;">95%</div>
+      </div>
+
+      <p class="skill-label">Cartões de visita</p>
+      <div class="skill-bar-bg">
+        <div class="skill-bar-fill" style="width:85%;">85%</div>
+      </div>
+
+      <p class="skill-label">Banners</p>
+      <div class="skill-bar-bg">
+        <div class="skill-bar-fill" style="width:80%;">80%</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="w3-row w3-center w3-padding-16 stats-row">
+        <div class="w3-quarter w3-section">
+          <span class="w3-xlarge">32+</span>
+          <p>LOGOS</p>
+        </div>
+        <div class="w3-quarter w3-section">
+          <span class="w3-xlarge">10+</span>
+          <p>CARTÕES</p>
+        </div>
+        <div class="w3-quarter w3-section">
+          <span class="w3-xlarge">04+</span>
+          <p>BANNERS</p>
+        </div>
+        <div class="w3-quarter w3-section">
+          <span class="w3-xlarge">4+</span>
+          <p>SITES</p>
+        </div>
+      </div>
+
+      <button class="btn-resume">
+        <i class="fa fa-download"></i> Download Portfólio
+      </button>
+
+      <!-- Pricing -->
+      <h3 class="w3-padding-16 w3-text-light-grey" style="margin-top:48px;">Tabela de serviços</h3>
+
+      <div class="w3-row-padding" style="margin:0 -16px">
+        <!-- Basic -->
+        <div class="w3-half w3-margin-bottom">
+          <ul class="w3-ul w3-center pricing-card" style="background:#1a1a1a; border:1px solid #333; border-radius:8px; overflow:hidden;">
+            <li style="background:#222; padding:28px; font-size:1.3rem; font-weight:700; letter-spacing:2px; color:#fff;">BASIC</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Logotipo</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Cartão de Visita</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Banner</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Site</li>
+            <li style="padding:20px; border-bottom:1px solid #2a2a2a;">
+              <h2 style="color:#fff; margin:0;">R$60</h2>
+              <span style="color:#666; font-size:12px;">por projeto</span>
+            </li>
+            <li style="padding:20px; background:#1a1a1a;">
+              <a href="#contact">
+                <button class="btn-send" style="width:100%; justify-content:center;">Contratar</button>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Plataforma -->
+        <div class="w3-half">
+          <ul class="w3-ul w3-center pricing-card" style="background:#1a1a1a; border:1px solid #333; border-radius:8px; overflow:hidden;">
+            <li style="background:#222; padding:28px; font-size:1.1rem; font-weight:700; letter-spacing:1px; color:#fff;">PLATAFORMA DE ANÚNCIO</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Semanal</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Mensal</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Até 200 E-mails</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Copywriting</li>
+            <li style="padding:14px; color:#aaa; border-bottom:1px solid #2a2a2a;">Gestão de Vendas</li>
+            <li style="padding:20px; border-bottom:1px solid #2a2a2a;">
+              <h2 style="color:#fff; margin:0;">R$50</h2>
+              <span style="color:#666; font-size:12px;">por projeto</span>
+            </li>
+            <li style="padding:20px; background:#1a1a1a;">
+              <a href="#contact">
+                <button class="btn-send" style="width:100%; justify-content:center;">Contratar</button>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GALLERY PORTFÓLIO ===== -->
+    <div class="w3-padding-64 w3-content" id="gallery">
+      <h2 class="w3-text-light-grey">GALLERY — PORTFÓLIO LAPIN</h2>
+      <hr class="section-hr"/>
+
+      <div class="w3-row-padding" style="margin:0 -16px">
+        <div class="w3-half">
+          <div class="gif-container">
+            <img alt="OSMAR" loading="lazy" src="https://i.postimg.cc/ydP2rjnw/OSMAR2.png"/>
+            <div class="gif-overlay"><strong>OSMAR</strong><br/><small>Identidade Visual</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="RAPO" loading="lazy" src="https://i.postimg.cc/9QYMFtn9/RAPO2.png"/>
+            <div class="gif-overlay"><strong>RAPO</strong><br/><small>Identidade Visual</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="Ranktouro" loading="lazy" src="https://i.postimg.cc/6322cQL4/Rank-touro2.png"/>
+            <div class="gif-overlay"><strong>Ranktouro</strong><br/><small>Identidade Visual</small></div>
+          </div>
+        </div>
+
+        <div class="w3-half">
+          <div class="gif-container">
+            <img alt="TOURO" loading="lazy" src="https://i.postimg.cc/6pvYMkd8/TOURO584X.png"/>
+            <div class="gif-overlay"><strong>TOURO</strong><br/><small>Identidade Visual</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="tiger cafe" loading="lazy" src="https://i.postimg.cc/VkrRSz2n/caafe-tiger.png"/>
+            <div class="gif-overlay"><strong>tigercafe</strong><br/><small>Identidade Visual</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="BAILER" loading="lazy" src="https://i.postimg.cc/MpHkXdpD/BAILER.png"/>
+            <div class="gif-overlay"><strong>BAILER</strong><br/><small>Identidade Visual</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="SIARC" loading="lazy" src="https://i.postimg.cc/FKhCDxk8/SIARC.png"/>
+            <div class="gif-overlay"><strong>SIARC</strong><br/><small>Identidade Visual</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GALLERY LOGO LAPIN ===== -->
+    <div class="w3-padding-64 w3-content" id="gallery-logo-lapin">
+      <div class="gallery-logo-header">
+        <img alt="Lapin logo" loading="lazy" src="https://i.postimg.cc/RFWkNQb8/png-1.png"/>
+      </div>
+      <h2 class="w3-text-light-grey">GALLERY LOGO LAPIN</h2>
+      <hr class="section-hr"/>
+
+      <div class="w3-row-padding" style="margin:0 -16px">
+        <div class="w3-half">
+          <div class="gif-container">
+            <img alt="CARTOES" loading="lazy" src="https://i.postimg.cc/c4Q0dxxG/01-Free-T-Shirt-Mockup-On-Floor.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>CAROES</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="MODERNO" loading="lazy" src="https://i.postimg.cc/Hks77k8R/Business.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>MODERNO</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="TACTAC" loading="lazy" src="https://i.postimg.cc/F15tZRmV/tactac.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>TACTAC</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="Design animado" loading="lazy" src="https://i.postimg.cc/6qvPnCQp/anim4.gif" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>ANIMAÇÃO</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="ONE" loading="lazy" src="https://i.postimg.cc/ncjNL9Sj/ONE-ACESSORIA.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>FIRE CÓDIGOS</strong><br/><small>Logo Lapin</small></div>
+          </div>
+        </div>
+
+        <div class="w3-half">
+          <div class="gif-container">
+            <img alt="CARTOES" loading="lazy" src="https://i.postimg.cc/FF8m2V94/cartoes-png-para-site.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>CIBORELO</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="OSMAR" loading="lazy" src="https://i.postimg.cc/8cx4yr8K/Free-T-Shirt-Tag-Mockup64HJI.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>EDUARD</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="PAGONG HOTELARIA" loading="lazy" src="https://i.postimg.cc/KYJ2LXPZ/PAGONG-HOTELARIA.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>PAGONG HOTELARIA</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="TILKI" loading="lazy" src="https://i.postimg.cc/43hS8G2k/TILKI.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>TILKI</strong><br/><small>Logo Lapin</small></div>
+          </div>
+          <div class="gif-container">
+            <img alt="PORCO RED MAXIMO" loading="lazy" src="https://i.postimg.cc/G3g9MTX0/PORCO-RED-MAXIMO.png" style="width:100%;height:auto;"/>
+            <div class="gif-overlay"><strong>PORCO RED MÁXIMO</strong><br/><small>Logo Lapin</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CONTACT ===== -->
+    <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+      <h2 class="w3-text-light-grey">Fale Comigo</h2>
+      <hr class="section-hr"/>
+
+      <div class="w3-section" style="margin-bottom:32px;">
+        <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> São Paulo — SP</p>
+        <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> +55 (11) 970773204</p>
+        <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> lazarolapin@gmail.com</p>
+      </div>
+
+      <p style="margin-bottom:20px;">Vamos entrar em contato. Envie-me uma mensagem:</p>
+
+      <form action="https://formspree.io/f/mnngvozy" method="POST">
+        <!-- Honeypot anti-spam -->
+        <input name="_gotcha" style="display:none" type="text" tabindex="-1" autocomplete="off"/>
+
+        <input class="contact-input" name="name"    placeholder="Seu nome"    required type="text"/>
+        <input class="contact-input" name="email"   placeholder="Seu e-mail"  required type="email"/>
+        <input class="contact-input" name="subject" placeholder="Assunto"     required type="text"/>
+        <textarea class="contact-input" name="message" placeholder="Sua mensagem" required rows="6" style="resize:vertical;"></textarea>
+
+        <button class="btn-send" type="submit">
+          <i class="fa fa-paper-plane"></i> ENVIAR MENSAGEM
+        </button>
+      </form>
+
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="w3-content w3-padding-64 w3-text-grey" style="text-align:center;">
+      <div style="margin-bottom:16px;">
+        <a href="https://wa.me/5511961053967?text=seja%20bem%20vindo%20" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <img alt="WhatsApp" src="https://i.postimg.cc/DwWt3gHv/icone-branco.png"/>
+        </a>
+        <a href="https://chat.google.com/room/AAQAw8LgJEw?cls=7" target="_blank" rel="noopener" aria-label="Google Chat">
+          <img alt="Google Chat" src="https://i.postimg.cc/CKW9mqxb/gbarnco.png"/>
+        </a>
+        <a href="https://pt-br.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">
+          <img alt="Facebook" src="https://i.postimg.cc/YSbwR9mZ/Vector-branco.png"/>
+        </a>
+        <a href="https://i.postimg.cc/C5gmXCDh/pedido-termo-logotipo-logo.png" target="_blank" rel="noopener" aria-label="Termos">
+          <img alt="Termos" src="https://i.postimg.cc/FHZh1GGJ/Vectorbalan-a.png"/>
+        </a>
+      </div>
+      <p class="w3-medium" style="color:#555;">
+        &copy; 2026 Lapin Designer — 
+        <a class="w3-hover-text-white" href="#home" style="color:#666;"></a>
+      </p>
+    </footer>
+
+  </div><!-- /#main -->
+
+  <!-- ===== CONTADOR DE VISITAS (fixo inferior esquerdo) ===== -->
+  <div style="
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 9999;
+    background: rgba(17,17,17,0.85);
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 3px 5px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    transform: scale(0.6);
+    transform-origin: bottom left;
+  ">
+    <a href='https://www.counters-free.net/' style="line-height:0; font-size:0;">Visitor Counters free</a>
+    <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=193900aab31f903003d4831d74e1e4199136dfdc'></script>
+    <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1544437/t/4"></script>
+  </div>
+
+  <!-- ===== CHAT WIDGET ===== -->
+  <style>
+    /* --- Botão flutuante --- */
+    #chat-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 10000;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #1E93FA;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(30,147,250,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #chat-toggle:hover { box-shadow: 0 6px 22px rgba(30,147,250,0.7); }
+    #chat-toggle svg { width: 28px; height: 28px; fill: #fff; transition: opacity 0.2s; }
+    #chat-toggle .icon-close { display: none; }
+
+    /* Animação contínua do ícone de chat */
+    @keyframes chat-pulse {
+      0%   { transform: scale(1);    box-shadow: 0 4px 16px rgba(30,147,250,0.5), 0 0 0 0 rgba(30,147,250,0.6); }
+      50%  { transform: scale(1.07); box-shadow: 0 6px 22px rgba(30,147,250,0.7), 0 0 0 10px rgba(30,147,250,0); }
+      100% { transform: scale(1);    box-shadow: 0 4px 16px rgba(30,147,250,0.5), 0 0 0 0 rgba(30,147,250,0); }
+    }
+    @keyframes chat-icon-swing {
+      0%,100% { transform: rotate(0deg); }
+      20%     { transform: rotate(-14deg); }
+      40%     { transform: rotate(10deg); }
+      60%     { transform: rotate(-6deg); }
+      80%     { transform: rotate(4deg); }
+    }
+    #chat-toggle:not(.open) {
+      animation: chat-pulse 2s ease-in-out infinite;
+    }
+    #chat-toggle:not(.open) .icon-chat {
+      animation: chat-icon-swing 3s ease-in-out infinite;
+      display: inline-block;
+      transform-origin: top center;
+    }
+
+    /* --- Janela do chat --- */
+    #chat-window {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
+      z-index: 9999;
+      width: 340px;
+      max-width: calc(100vw - 32px);
+      height: 460px;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+      overflow: hidden;
+      transform: scale(0.92) translateY(16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(.4,0,.2,1), opacity 0.25s;
+    }
+    #chat-window.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Header */
+    #chat-header {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #chat-header img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+    #chat-header .chat-title { font-size: 14px; font-weight: 700; color: #fff; }
+    #chat-header .chat-sub   { font-size: 11px; color: #1E93FA; margin-top: 1px; }
+    #chat-header .dot-online {
+      width: 8px; height: 8px; background: #22c55e;
+      border-radius: 50%; margin-left: auto; flex-shrink: 0;
+      box-shadow: 0 0 6px #22c55e;
+    }
+
+    /* Messages area */
+    #chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #333 transparent;
+    }
+    #chat-messages::-webkit-scrollbar { width: 4px; }
+    #chat-messages::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+    .msg-bubble {
+      max-width: 78%;
+      padding: 10px 13px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    .msg-bubble.bot {
+      background: #1e1e1e;
+      color: #ddd;
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+    }
+    .msg-bubble.user {
+      background: #1E93FA;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      align-self: flex-end;
+    }
+    .msg-time {
+      font-size: 10px;
+      color: #555;
+      margin-top: 2px;
+    }
+    .msg-time.right { text-align: right; align-self: flex-end; }
+
+    /* Typing indicator */
+    .typing-dots {
+      display: flex; gap: 4px; align-items: center;
+      padding: 10px 13px;
+      background: #1e1e1e;
+      border-radius: 14px;
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+      width: fit-content;
+    }
+    .typing-dots span {
+      width: 7px; height: 7px; background: #555;
+      border-radius: 50%;
+      animation: typing-bounce 1.2s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing-bounce {
+      0%,60%,100% { transform: translateY(0); background: #555; }
+      30% { transform: translateY(-5px); background: #1E93FA; }
+    }
+
+    /* Input area */
+    #chat-input-area {
+      border-top: 1px solid #2a2a2a;
+      padding: 10px 12px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      background: #111;
+    }
+    #chat-input {
+      flex: 1;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #ddd;
+      font-family: "Montserrat", sans-serif;
+      font-size: 13px;
+      padding: 9px 12px;
+      resize: none;
+      max-height: 80px;
+      outline: none;
+      transition: border-color 0.2s;
+      line-height: 1.4;
+    }
+    #chat-input:focus { border-color: #1E93FA; }
+    #chat-input::placeholder { color: #555; }
+    #chat-send {
+      width: 36px; height: 36px;
+      background: #1E93FA;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    #chat-send:hover { background: #1a7fd4; }
+    #chat-send svg { width: 18px; height: 18px; fill: #fff; }
+    #chat-send:disabled { background: #333; cursor: default; }
+
+    /* Badge de notificação */
+    #chat-badge {
+      position: absolute;
+      top: -4px; right: -4px;
+      width: 18px; height: 18px;
+      background: #ef4444;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #000;
+      pointer-events: none;
+    }
+    #chat-toggle { position: fixed; }
+    .chat-toggle-wrap {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 10000;
+    }
+    #chat-toggle { position: relative; }
+  </style>
+
+  <!-- Botão flutuante + badge -->
+  <div class="chat-toggle-wrap">
+    <button id="chat-toggle" aria-label="Abrir chat">
+      <!-- Ícone chat -->
+      <svg class="icon-chat" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+      <!-- Ícone fechar -->
+      <svg class="icon-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <div id="chat-badge">1</div>
+  </div>
+
+  <!-- Janela do chat -->
+  <div id="chat-window" role="dialog" aria-label="Chat Lapin Designer">
+    <div id="chat-header">
+      <img src="https://i.postimg.cc/RFWkNQb8/png-1.png" alt="Lapin"/>
+      <div>
+        <div class="chat-title">Lapin Designer</div>
+        <div class="chat-sub">● Online agora</div>
+      </div>
+      <div class="dot-online"></div>
+    </div>
+
+    <div id="chat-messages"></div>
+
+    <div id="chat-input-area">
+      <textarea id="chat-input" rows="1" placeholder="Digite sua mensagem…" maxlength="500"></textarea>
+      <button id="chat-send" disabled aria-label="Enviar">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var toggle    = document.getElementById('chat-toggle');
+      var chatWin   = document.getElementById('chat-window');
+      var messagesEl= document.getElementById('chat-messages');
+      var inputEl   = document.getElementById('chat-input');
+      var sendBtn   = document.getElementById('chat-send');
+      var badge     = document.getElementById('chat-badge');
+      var iconChat  = toggle.querySelector('.icon-chat');
+      var iconClose = toggle.querySelector('.icon-close');
+
+      var isOpen = false;
+
+      var respostas = [
+        "Olá! 👋 Sou o assistente do Lapin Designer. Como posso ajudar você hoje?",
+        "Que ótimo! Posso te contar mais sobre nossos serviços de logotipo, cartão de visita, banner ou site.",
+        "Nossos preços começam em R$60 por projeto. Quer saber mais detalhes?",
+        "Para orçamentos personalizados, você pode preencher o formulário de contato ou chamar no WhatsApp: (11) 97077-3204 😊",
+        "Trabalhamos com prazo rápido e qualidade profissional. Vamos criar algo incrível para sua marca!",
+        "Obrigado pela mensagem! Em breve entraremos em contato. 🚀"
+      ];
+      var resIdx = 0;
+
+      function getTime() {
+        var d = new Date();
+        return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+      }
+
+      function addMessage(text, type) {
+        var bubble = document.createElement('div');
+        bubble.className = 'msg-bubble ' + type;
+        bubble.textContent = text;
+        messagesEl.appendChild(bubble);
+
+        var time = document.createElement('div');
+        time.className = 'msg-time' + (type === 'user' ? ' right' : '');
+        time.textContent = getTime();
+        messagesEl.appendChild(time);
+
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      function showTyping() {
+        var dots = document.createElement('div');
+        dots.className = 'typing-dots';
+        dots.id = 'typing-indicator';
+        dots.innerHTML = '<span></span><span></span><span></span>';
+        messagesEl.appendChild(dots);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      function removeTyping() {
+        var t = document.getElementById('typing-indicator');
+        if (t) t.remove();
+      }
+
+      function botReply() {
+        showTyping();
+        setTimeout(function() {
+          removeTyping();
+          var msg = respostas[resIdx % respostas.length];
+          resIdx++;
+          addMessage(msg, 'bot');
+        }, 1200 + Math.random() * 600);
+      }
+
+      // Mensagem de boas-vindas ao abrir pela primeira vez
+      var welcomed = false;
+      function openChat() {
+        isOpen = true;
+        chatWin.classList.add('open');
+        toggle.classList.add('open');
+        iconChat.style.display = 'none';
+        iconClose.style.display = 'block';
+        badge.style.display = 'none';
+        if (!welcomed) {
+          welcomed = true;
+          setTimeout(function() { botReply(); }, 400);
+        }
+        inputEl.focus();
+      }
+
+      function closeChat() {
+        isOpen = false;
+        chatWin.classList.remove('open');
+        toggle.classList.remove('open');
+        iconChat.style.display = 'block';
+        iconClose.style.display = 'none';
+      }
+
+      toggle.addEventListener('click', function() {
+        isOpen ? closeChat() : openChat();
+      });
+
+      // Fechar com Esc
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isOpen) closeChat();
+      });
+
+      function sendMessage() {
+        var text = inputEl.value.trim();
+        if (!text) return;
+        addMessage(text, 'user');
+        inputEl.value = '';
+        inputEl.style.height = 'auto';
+        sendBtn.disabled = true;
+        botReply();
+      }
+
+      sendBtn.addEventListener('click', sendMessage);
+
+      inputEl.addEventListener('input', function() {
+        sendBtn.disabled = !inputEl.value.trim();
+        inputEl.style.height = 'auto';
+        inputEl.style.height = Math.min(inputEl.scrollHeight, 80) + 'px';
+      });
+
+      inputEl.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!sendBtn.disabled) sendMessage();
+        }
+      });
+    })();
+  </script>
+
+  <!-- ===== SMOOTH SCROLL ===== -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Active sidebar link highlight on scroll
+    var sections = document.querySelectorAll('header[id], div[id]');
+    var navLinks = document.querySelectorAll('.w3-sidebar a');
+    window.addEventListener('scroll', function() {
+      var scrollPos = window.scrollY + 80;
+      sections.forEach(function(sec) {
+        if (sec.offsetTop <= scrollPos && (sec.offsetTop + sec.offsetHeight) > scrollPos) {
+          navLinks.forEach(function(link) { link.classList.remove('active'); });
+          var activeLink = document.querySelector('.w3-sidebar a[href="#' + sec.id + '"]');
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
