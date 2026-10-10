@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cajazeira Polpas — Polpa de cajá e outras frutas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#FCE9A6;
+  --panel:rgba(255,251,236,.94);
+  --ink:#2A2E12;
+  --muted:#5B5F3A;
+  --green:#2F5F2A;
+  --green-ink:#F4F1D0;
+  --amber:#F2A516;
+  --amber-ink:#2A1700;
+  --line:rgba(42,46,18,.2);
+  --veil:rgba(252,233,166,.3);
+  --slot:rgba(255,255,255,.55);
+  --display:"Bricolage Grotesque","Trebuchet MS",Verdana,sans-serif;
+  --body:"DM Sans","Segoe UI",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1E2412;
+    --panel:rgba(30,36,18,.94);
+    --ink:#F7EFCF;
+    --muted:#C9C79A;
+    --green:#101607;
+    --green-ink:#F4F1D0;
+    --line:rgba(247,239,207,.22);
+    --veil:rgba(14,18,6,.62);
+    --slot:rgba(255,255,255,.07);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1E2412;
+  --panel:rgba(30,36,18,.94);
+  --ink:#F7EFCF;
+  --muted:#C9C79A;
+  --green:#101607;
+  --green-ink:#F4F1D0;
+  --line:rgba(247,239,207,.22);
+  --veil:rgba(14,18,6,.62);
+  --slot:rgba(255,255,255,.07);
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+img{max-width:100%}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;letter-spacing:-.01em}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:6px}
+
+/* Fundo de cajá */
+.bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-color:var(--bg);
+  background-image:var(--caja-tile,none);
+  background-size:260px 260px;
+}
+.bg::after{content:"";position:absolute;inset:0;background:var(--veil)}
+.page{position:relative;z-index:1}
+
+/* Cabeçalho */
+.site-header{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:var(--green);color:var(--green-ink);
+  border-bottom:4px solid var(--amber);
+}
+.header-in{
+  max-width:1160px;margin:0 auto;padding:12px 20px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:1.35rem;letter-spacing:-.01em}
+.brand svg{width:38px;height:38px;flex:none}
+.brand small{display:block;font-family:var(--body);font-weight:400;font-size:.72rem;opacity:.8;letter-spacing:0;margin-top:-2px}
+nav{margin-left:auto;display:flex;gap:4px;overflow-x:auto;max-width:100%}
+nav a{padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:500;font-size:.95rem;white-space:nowrap;transition:background .15s}
+nav a:hover{background:rgba(255,255,255,.14)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--amber);color:var(--amber-ink);
+  font-family:var(--body);font-weight:700;font-size:1rem;
+  padding:12px 22px;border-radius:999px;border:2px solid transparent;
+  text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.btn.ghost{background:transparent;color:inherit;border-color:currentColor}
+.btn.small{padding:8px 16px;font-size:.92rem}
+.header-cta{background:var(--amber);color:var(--amber-ink)}
+
+/* Estrutura */
+main{max-width:1160px;margin:0 auto;padding:28px 20px 56px;display:grid;gap:28px}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:clamp(22px,4vw,44px);
+  backdrop-filter:blur(2px);
+}
+.section-title{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:8px}
+.section-lead{color:var(--muted);max-width:60ch;margin:0 0 24px}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,6vw,4.2rem);font-weight:800}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:46ch;margin:18px 0 26px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn.ghost{color:var(--ink)}
+.hero-art{display:flex;justify-content:center}
+.hero-art svg{width:100%;max-width:380px;height:auto;filter:drop-shadow(0 12px 18px rgba(80,50,0,.25))}
+
+/* Diferenciais */
+.points{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:6px}
+.points h3{font-size:1.25rem;margin-bottom:6px}
+.points p{margin:0;color:var(--muted)}
+.points div{border-left:4px solid var(--amber);padding-left:16px}
+
+/* Sabores */
+.flavors{list-style:none;margin:0;padding:0}
+.flavor{
+  display:grid;grid-template-columns:auto 1fr auto auto;gap:6px 18px;align-items:center;
+  padding:16px 0;border-top:1px solid var(--line);
+}
+.flavor:first-child{border-top:0}
+.dot{width:46px;height:46px;border-radius:50%;box-shadow:inset -6px -8px 12px rgba(0,0,0,.18),inset 4px 4px 8px rgba(255,255,255,.35)}
+.flavor h3{font-size:1.2rem}
+.flavor p{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.price{font-family:var(--display);font-weight:700;font-size:1.25rem;white-space:nowrap;text-align:right}
+.price small{display:block;font-family:var(--body);font-weight:400;font-size:.78rem;color:var(--muted)}
+.flavor.destaque h3::after{content:"mais pedido";margin-left:10px;font-family:var(--body);font-size:.72rem;font-weight:700;background:var(--amber);color:var(--amber-ink);padding:2px 9px;border-radius:999px;vertical-align:middle}
+
+/* Galeria */
+.gallery-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.gallery-bar .count{color:var(--muted);font-size:.95rem;margin-left:auto}
+.btn.outline{background:transparent;color:var(--ink);border-color:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
+.slot{
+  position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;padding:0;cursor:pointer;
+  background:var(--slot);border:2px dashed var(--line);color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  font:500 .85rem var(--body);transition:transform .15s,border-color .15s;
+}
+.slot:hover{border-color:var(--amber);transform:translateY(-2px)}
+.slot svg{width:44px;height:44px;opacity:.8}
+.slot.filled{border:0;background:#000}
+.slot.filled img{width:100%;height:100%;object-fit:cover;display:block}
+.slot .tag{position:absolute;left:8px;top:8px;background:rgba(0,0,0,.6);color:#fff;border-radius:999px;font-size:.72rem;padding:1px 8px}
+.note{font-size:.9rem;color:var(--muted);margin:16px 0 0}
+
+dialog.lb{border:0;padding:0;background:transparent;max-width:100vw;max-height:100vh;color:#fff}
+dialog.lb::backdrop{background:rgba(10,12,4,.88)}
+.lb-in{display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px;max-width:94vw}
+.lb-in img{max-width:92vw;max-height:72vh;border-radius:12px;display:block}
+.lb-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.lb-actions .btn{background:rgba(255,255,255,.14);color:#fff}
+.lb-actions .btn.primary{background:var(--amber);color:var(--amber-ink)}
+
+/* Como pedir */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding-top:56px}
+.steps li::before{
+  content:counter(s);position:absolute;top:0;left:0;width:44px;height:44px;border-radius:50%;
+  background:var(--green);color:var(--green-ink);display:grid;place-items:center;
+  font-family:var(--display);font-weight:700;font-size:1.3rem;
+}
+.steps h3{font-size:1.2rem;margin-bottom:4px}
+.steps p{margin:0;color:var(--muted)}
+
+/* Rodapé */
+.site-footer{background:var(--green);color:var(--green-ink);border-top:4px solid var(--amber)}
+.footer-in{max-width:1160px;margin:0 auto;padding:40px 20px 28px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.site-footer h4{font-family:var(--display);font-size:1.05rem;margin:0 0 10px}
+.site-footer p,.site-footer li{margin:0 0 6px;font-size:.95rem;opacity:.9}
+.site-footer ul{list-style:none;margin:0;padding:0}
+.site-footer a{text-underline-offset:3px}
+.copy{max-width:1160px;margin:0 auto;padding:16px 20px calc(20px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(255,255,255,.18);font-size:.85rem;opacity:.8}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .hero-art{order:-1}
+  .hero-art svg{max-width:240px}
+  .points,.steps{grid-template-columns:1fr}
+  .footer-in{grid-template-columns:1fr}
+  .flavor{grid-template-columns:auto 1fr auto}
+  .flavor .btn{grid-column:1/-1;justify-self:start}
+  nav{order:3;width:100%;margin-left:0}
+  .header-cta{margin-left:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- Símbolo do cajá reutilizável -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="gCaja" cx="35%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#FFE27A"/>
+      <stop offset=".55" stop-color="#F6B722"/>
+      <stop offset="1" stop-color="#D98A0B"/>
+    </radialGradient>
+    <symbol id="caja" viewBox="0 0 60 60">
+      <path d="M30 12 C34 6 42 4 48 8 C44 14 36 16 30 12Z" fill="#3E7D32"/>
+      <path d="M30 12 C30 9 30 7 31 5" stroke="#6B4A1B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <ellipse cx="30" cy="35" rx="19" ry="22" fill="url(#gCaja)"/>
+      <ellipse cx="22" cy="26" rx="4.5" ry="8" fill="#fff" opacity=".35" transform="rotate(18 22 26)"/>
+      <circle cx="36" cy="42" r="1" fill="#B8730A" opacity=".6"/>
+      <circle cx="28" cy="48" r="1" fill="#B8730A" opacity=".6"/>
+      <circle cx="40" cy="33" r="1" fill="#B8730A" opacity=".6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="bg" aria-hidden="true"></div>
+
+<div class="page">
+
+<header class="site-header">
+  <div class="header-in">
+    <a class="brand" href="#inicio" aria-label="Cajazeira Polpas, início">
+      <svg viewBox="0 0 60 60" aria-hidden="true"><use href="#caja"/></svg>
+      <span>Cajazeira Polpas<small>Polpas de fruta congeladas</small></span>
+    </a>
+    <nav aria-label="Principal">
+      <a href="#inicio">Início</a>
+      <a href="#sabores">Sabores</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#como-pedir">Como pedir</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="btn small header-cta" data-wa="Olá! Quero fazer um pedido de polpas." href="#" target="_blank" rel="noopener">Pedir agora</a>
+  </div>
+</header>
+
+<main>
+
+  <section id="inicio" class="panel hero">
+    <div>
+      <h1>Polpa de cajá de verdade, do pomar ao seu freezer.</h1>
+      <p>Pacotes congelados de 1 kg, prontos para suco, sorvete, geleia e doces. Escolha o sabor e peça pelo WhatsApp.</p>
+      <div class="hero-actions">
+        <a class="btn" data-wa="Olá! Quero pedir polpa de cajá." href="#" target="_blank" rel="noopener">Pedir polpa de cajá</a>
+        <a class="btn ghost" href="#sabores">Ver todos os sabores</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 320 300">
+        <g transform="translate(20 120) scale(3.2)"><use href="#caja" width="60" height="60"/></g>
+        <g transform="translate(120 70) scale(3.9)"><use href="#caja" width="60" height="60"/></g>
+        <g transform="translate(190 150) scale(2.9)"><use href="#caja" width="60" height="60"/></g>
+        <path d="M60 130 C40 90 70 50 110 60" stroke="#3E7D32" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M110 60 C130 30 170 30 190 55 C165 80 130 80 110 60Z" fill="#3E7D32"/>
+        <path d="M110 60 C140 55 165 52 190 55" stroke="#2B5A22" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="dif-t">
+    <h2 class="section-title" id="dif-t">Por que escolher a Cajazeira</h2>
+    <p class="section-lead">Fruta selecionada, processada com cuidado e entregue congelada.</p>
+    <div class="points">
+      <div><h3>Fruta selecionada</h3><p>Escolhemos as frutas no ponto certo para manter sabor e cor.</p></div>
+      <div><h3>Pacotes práticos</h3><p>Embalagens de 1 kg, fáceis de guardar e de dividir em porções.</p></div>
+      <div><h3>Atendimento direto</h3><p>Fale com a gente no WhatsApp para tirar dúvidas e combinar a entrega.</p></div>
+    </div>
+  </section>
+
+  <section id="sabores" class="panel" aria-labelledby="sab-t">
+    <h2 class="section-title" id="sab-t">Sabores disponíveis</h2>
+    <p class="section-lead">Toque em “Pedir” para enviar o pedido já com o sabor escolhido.</p>
+    <ul class="flavors" id="flavors"></ul>
+  </section>
+
+  <section id="galeria" class="panel" aria-labelledby="gal-t">
+    <h2 class="section-title" id="gal-t">Galeria</h2>
+    <p class="section-lead">Fotos e GIFs dos nossos produtos e do dia a dia. Toque em uma imagem para ampliar.</p>
+    <div class="gallery-bar">
+      <button class="btn small" id="addBtn" type="button">Adicionar fotos ou GIFs</button>
+      <button class="btn small outline" id="clearBtn" type="button">Limpar galeria</button>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="note" id="galNote">Cada espaço vazio aceita uma imagem. Você pode tocar em um espaço para colocar uma foto ou GIF só nele.</p>
+    <input type="file" id="files" accept="image/*" multiple hidden>
+    <input type="file" id="fileOne" accept="image/*" hidden>
+  </section>
+
+  <section id="como-pedir" class="panel" aria-labelledby="ped-t">
+    <h2 class="section-title" id="ped-t">Como pedir</h2>
+    <p class="section-lead">Três passos, sem cadastro.</p>
+    <ol class="steps">
+      <li><h3>Escolha os sabores</h3><p>Veja a lista acima e anote quantos pacotes de cada sabor você quer.</p></li>
+      <li><h3>Chame no WhatsApp</h3><p>Envie o pedido e confirme o endereço ou o horário de retirada.</p></li>
+      <li><h3>Receba e aproveite</h3><p>Guarde no freezer e use quando quiser, direto do pacote.</p></li>
+    </ol>
+    <p style="margin:26px 0 0"><a class="btn" data-wa="Olá! Quero fazer um pedido de polpas." href="#" target="_blank" rel="noopener">Fazer meu pedido</a></p>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="contato">
+  <div class="footer-in">
+    <div>
+      <a class="brand" href="#inicio" style="margin-bottom:12px">
+        <svg viewBox="0 0 60 60" aria-hidden="true"><use href="#caja"/></svg>
+        <span>Cajazeira Polpas</span>
+      </a>
+      <p>Polpas de fruta congeladas para você e para o seu negócio.</p>
+    </div>
+    <div>
+      <h4>Contato</h4>
+      <ul>
+        <li><a data-wa="Olá! Gostaria de mais informações." href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li>Instagram: @cajazeirapolpas</li>
+        <li>Rua das Frutas, 123, sua cidade</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Atendimento</h4>
+      <ul>
+        <li>Segunda a sábado, 8h às 18h</li>
+        <li>Entregas e retiradas combinadas pelo WhatsApp</li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">© <span id="year"></span> Cajazeira Polpas. Todos os direitos reservados.</div>
+</footer>
+
+</div>
+
+<dialog class="lb" id="lb" aria-label="Imagem ampliada">
+  <div class="lb-in">
+    <img id="lbImg" alt="">
+    <div class="lb-actions">
+      <button class="btn small" type="button" id="lbPrev">Anterior</button>
+      <button class="btn small" type="button" id="lbNext">Próxima</button>
+      <button class="btn small" type="button" id="lbReplace">Trocar imagem</button>
+      <button class="btn small" type="button" id="lbRemove">Remover</button>
+      <button class="btn small primary" type="button" id="lbClose">Fechar</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ===== CONFIGURAÇÕES: edite aqui ===== */
+const WHATSAPP = "5512900000000"; // DDI + DDD + número, só dígitos
+const PRODUTOS = [
+  { nome:"Cajá",      desc:"Azedinha e perfumada, ótima para suco e sorvete.", preco:22, cor:"#F6B722", destaque:true },
+  { nome:"Acerola",   desc:"Cheia de vitamina C, sabor marcante.",             preco:16, cor:"#D9341F" },
+  { nome:"Cupuaçu",   desc:"Cremosa, para sucos, bolos e mousses.",           preco:28, cor:"#C9A27A" },
+  { nome:"Graviola",  desc:"Suave e adocicada, rende suco encorpado.",         preco:24, cor:"#DDE6C0" },
+  { nome:"Maracujá",  desc:"Refrescante, do suco à sobremesa.",               preco:20, cor:"#E9C21E" },
+  { nome:"Caju",      desc:"Sabor tropical com toque levemente azedo.",       preco:18, cor:"#F08A2C" },
+  { nome:"Manga",     desc:"Doce e aromática, ótima para vitaminas.",         preco:18, cor:"#F7A21B" },
+  { nome:"Goiaba",    desc:"Rosada, perfumada e muito versátil.",             preco:18, cor:"#E56B7E" }
+];
+const TOTAL_SLOTS = 40;
+
+/* ===== Fundo de cajá (padrão SVG repetido) ===== */
+(function(){
+  const fruit=(x,y,s,r)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})">
+    <path d="M0 -24 C4 -34 14 -36 22 -30 C18 -22 6 -20 0 -24Z" fill="#3E7D32"/>
+    <path d="M0 -22 C0 -26 0 -29 1 -31" stroke="#6B4A1B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="0" cy="0" rx="21" ry="25" fill="url(#g)"/>
+    <ellipse cx="-8" cy="-9" rx="4.5" ry="9" fill="#fff" opacity=".4" transform="rotate(18 -8 -9)"/>
+    <circle cx="7" cy="9" r="1.1" fill="#A8650A" opacity=".55"/>
+    <circle cx="-3" cy="15" r="1.1" fill="#A8650A" opacity=".55"/>
+    <circle cx="11" cy="-2" r="1.1" fill="#A8650A" opacity=".55"/>
+  </g>`;
+  const leaf=(x,y,r,s)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})">
+    <path d="M0 0 C10 -13 30 -13 42 0 C30 13 10 13 0 0Z" fill="#4C8B3A"/>
+    <path d="M2 0 C16 -1 28 -1 40 0" stroke="#2F6B2A" stroke-width="1.6" fill="none"/>
+  </g>`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">
+    <defs><radialGradient id="g" cx="35%" cy="30%" r="85%">
+      <stop offset="0" stop-color="#FFE27A"/><stop offset=".55" stop-color="#F4B120"/><stop offset="1" stop-color="#D4850A"/>
+    </radialGradient></defs>
+    ${leaf(70,36,-30,1)}${leaf(26,92,120,.9)}${leaf(176,24,200,.9)}${leaf(22,176,-60,.9)}${leaf(150,236,30,1)}${leaf(236,150,160,.9)}
+    ${fruit(54,56,1,-15)}${fruit(92,82,.85,20)}${fruit(66,108,.9,5)}
+    ${fruit(196,44,.8,30)}${fruit(222,78,1,-10)}
+    ${fruit(52,196,.9,10)}${fruit(104,222,1,-25)}
+    ${fruit(204,176,1.05,15)}${fruit(168,214,.8,-5)}${fruit(124,138,.7,-20)}
+  </svg>`;
+  const uri='url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
+  document.documentElement.style.setProperty('--caja-tile',uri);
+})();
+
+/* ===== Links de WhatsApp ===== */
+function wa(msg){return "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);}
+document.querySelectorAll("[data-wa]").forEach(a=>{a.href=wa(a.dataset.wa);});
+document.getElementById("year").textContent=new Date().getFullYear();
+
+/* ===== Lista de sabores ===== */
+(function(){
+  const ul=document.getElementById("flavors");
+  const fmt=n=>"R$ "+n.toFixed(2).replace(".",",");
+  PRODUTOS.forEach(p=>{
+    const li=document.createElement("li");
+    li.className="flavor"+(p.destaque?" destaque":"");
+    li.innerHTML=`<span class="dot" style="background:${p.cor}" aria-hidden="true"></span>
+      <div><h3>${p.nome}</h3><p>${p.desc}</p></div>
+      <div class="price">${fmt(p.preco)}<small>pacote de 1 kg</small></div>
+      <a class="btn small" target="_blank" rel="noopener" href="${wa("Olá! Quero pedir polpa de "+p.nome.toLowerCase()+".")}">Pedir</a>`;
+    ul.appendChild(li);
+  });
+})();
+
+/* ===== Galeria de 40 imagens/GIFs ===== */
+(function(){
+  const grid=document.getElementById("grid");
+  const count=document.getElementById("count");
+  const files=document.getElementById("files");
+  const fileOne=document.getElementById("fileOne");
+  const lb=document.getElementById("lb");
+  const lbImg=document.getElementById("lbImg");
+  const slots=new Array(TOTAL_SLOTS).fill(null); // {url, blob}
+  let pending=-1, current=-1;
+
+  /* Armazenamento local (somente neste navegador) */
+  let dbp=null;
+  function db(){
+    if(dbp) return dbp;
+    dbp=new Promise((res,rej)=>{
+      try{
+        const r=indexedDB.open("cajazeira-galeria",1);
+        r.onupgradeneeded=()=>r.result.createObjectStore("s");
+        r.onsuccess=()=>res(r.result);
+        r.onerror=()=>rej(r.error);
+      }catch(e){rej(e);}
+    });
+    return dbp;
+  }
+  async function dbPut(i,blob){try{const d=await db();d.transaction("s","readwrite").objectStore("s").put(blob,i);}catch(e){}}
+  async function dbDel(i){try{const d=await db();d.transaction("s","readwrite").objectStore("s").delete(i);}catch(e){}}
+  async function dbLoad(){
+    try{
+      const d=await db();
+      await new Promise(resolve=>{
+        const req=d.transaction("s").objectStore("s").openCursor();
+        req.onsuccess=()=>{
+          const c=req.result;
+          if(c){ if(c.key<TOTAL_SLOTS && c.value instanceof Blob){slots[c.key]={blob:c.value,url:URL.createObjectURL(c.value)};} c.continue(); }
+          else resolve();
+        };
+        req.onerror=()=>resolve();
+      });
+    }catch(e){}
+  }
+
+  function render(){
+    grid.innerHTML="";
+    let filled=0;
+    for(let i=0;i<TOTAL_SLOTS;i++){
+      const s=slots[i];
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="slot"+(s?" filled":"");
+      if(s){
+        filled++;
+        b.setAttribute("aria-label","Imagem "+(i+1)+", ampliar");
+        b.innerHTML=`<img src="${s.url}" alt="Imagem ${i+1} da galeria" loading="lazy"><span class="tag">${i+1}</span>`;
+        b.addEventListener("click",()=>openLb(i));
+      }else{
+        b.setAttribute("aria-label","Espaço "+(i+1)+" vazio, adicionar imagem");
+        b.innerHTML=`<svg viewBox="0 0 60 60" aria-hidden="true"><use href="#caja"/></svg><span>Foto ${i+1}</span>`;
+        b.addEventListener("click",()=>{pending=i;fileOne.value="";fileOne.click();});
+      }
+      grid.appendChild(b);
+    }
+    count.textContent=filled+" de "+TOTAL_SLOTS+" espaços preenchidos";
+  }
+
+  function setSlot(i,blob){
+    if(slots[i]) URL.revokeObjectURL(slots[i].url);
+    slots[i]={blob,url:URL.createObjectURL(blob)};
+    dbPut(i,blob);
+  }
+  function removeSlot(i){
+    if(!slots[i]) return;
+    URL.revokeObjectURL(slots[i].url);
+    slots[i]=null;
+    dbDel(i);
+  }
+
+  document.getElementById("addBtn").addEventListener("click",()=>{files.value="";files.click();});
+  files.addEventListener("change",()=>{
+    const list=[...files.files].filter(f=>f.type.startsWith("image/"));
+    let ignored=0;
+    list.forEach(f=>{
+      const free=slots.findIndex(s=>!s);
+      if(free===-1){ignored++;return;}
+      setSlot(free,f);
+    });
+    render();
+    document.getElementById("galNote").textContent = ignored
+      ? ignored+" arquivo(s) não coube(ram): a galeria já tem "+TOTAL_SLOTS+" imagens."
+      : "Imagens adicionadas.";
+  });
+  fileOne.addEventListener("change",()=>{
+    const f=fileOne.files[0];
+    if(f && f.type.startsWith("image/") && pending>-1){
+      setSlot(pending,f);
+      if(lb.open && current===pending){lbImg.src=slots[pending].url;}
+      render();
+    }
+    pending=-1;
+  });
+  document.getElementById("clearBtn").addEventListener("click",()=>{
+    if(!slots.some(Boolean)) return;
+    if(!confirm("Remover todas as imagens da galeria?")) return;
+    for(let i=0;i<TOTAL_SLOTS;i++) removeSlot(i);
+    render();
+  });
+
+  /* Visualizador */
+  function openLb(i){
+    current=i;
+    lbImg.src=slots[i].url;
+    lbImg.alt="Imagem "+(i+1)+" da galeria";
+    if(!lb.open) lb.showModal();
+  }
+  function step(dir){
+    const filled=slots.map((s,i)=>s?i:-1).filter(i=>i>-1);
+    if(!filled.length){lb.close();return;}
+    let pos=filled.indexOf(current);
+    pos=(pos+dir+filled.length)%filled.length;
+    openLb(filled[pos]);
+  }
+  document.getElementById("lbPrev").addEventListener("click",()=>step(-1));
+  document.getElementById("lbNext").addEventListener("click",()=>step(1));
+  document.getElementById("lbClose").addEventListener("click",()=>lb.close());
+  document.getElementById("lbReplace").addEventListener("click",()=>{pending=current;fileOne.value="";fileOne.click();});
+  document.getElementById("lbRemove").addEventListener("click",()=>{
+    const i=current;
+    const filled=slots.map((s,k)=>s?k:-1).filter(k=>k>-1);
+    removeSlot(i);
+    render();
+    const rest=filled.filter(k=>k!==i);
+    if(!rest.length){lb.close();return;}
+    openLb(rest.find(k=>k>i)??rest[0]);
+  });
+  lb.addEventListener("click",e=>{if(e.target===lb)lb.close();});
+  lb.addEventListener("keydown",e=>{
+    if(e.key==="ArrowLeft")step(-1);
+    if(e.key==="ArrowRight")step(1);
+  });
+
+  render();
+  dbLoad().then(render);
+})();
+</script>
+</body>
+</html>
