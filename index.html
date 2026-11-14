@@ -2,222 +2,216 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ClipDoc</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#010440">
+<title>ARCH – Conversor e editor de arquivos</title>
 <style>
-:root{--o:#F28F16;--b:#010440;--w:#fff}
+:root{--o:#F28F16;--n:#010440;--n2:#0a0f5c;--n3:#14196e;--t:#fff;--m:#b9bce6}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,sans-serif;background:var(--b);color:var(--w);padding-bottom:70px}
-header{background:var(--b);border-bottom:3px solid var(--o);padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5}
-header h1{margin:0;font-size:20px;color:var(--o)}
-.clip{width:34px;height:34px;animation:swing 2s ease-in-out infinite;transform-origin:50% 10%}
-@keyframes swing{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg) translateY(2px)}}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--o);padding-bottom:env(safe-area-inset-bottom,0)}
-nav button{flex:1;border:0;background:none;color:var(--b);padding:12px 2px;font-weight:700;font-size:12px}
-nav button.on{background:var(--b);color:var(--o)}
-section{display:none;padding:14px}section.on{display:block}
-.card{background:rgba(255,255,255,.08);border:1px solid var(--o);border-radius:12px;padding:12px;margin-bottom:12px}
-button.p,label.p{background:var(--o);color:var(--b);border:0;border-radius:10px;padding:10px 14px;font-weight:700;display:inline-block;margin:4px 4px 4px 0}
-input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--o);background:#fff;color:#000;margin:4px 0}
-#ed{background:#fff;color:#000;min-height:260px;border-radius:10px;padding:12px;outline:2px solid var(--o)}
-.tb button{background:var(--b);color:var(--o);border:1px solid var(--o);border-radius:8px;padding:8px 10px;margin:2px}
-#gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
-#gal img{width:100%;border:2px solid var(--o);border-radius:8px;background:#fff}
-.gi{position:relative}.gi b{position:absolute;top:2px;right:6px;color:red;cursor:pointer}
-#cv{max-width:100%;background:#fff;border:2px solid var(--o);touch-action:none}
-small{opacity:.8}
+html,body{margin:0;height:100%}
+body{background:var(--n);color:var(--t);font:16px/1.45 system-ui,Segoe UI,Roboto,sans-serif;padding-bottom:72px}
+header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--n2);border-bottom:3px solid var(--o);position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:26px;letter-spacing:3px;color:var(--o)}
+header small{color:var(--m);display:block;letter-spacing:0}
+.clip{width:34px;height:42px;transform-origin:50% 90%;animation:sw 2.4s ease-in-out infinite}
+.clip path{stroke-dasharray:260;animation:dr 2.4s ease-in-out infinite}
+@keyframes sw{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+@keyframes dr{0%{stroke-dashoffset:260}60%,100%{stroke-dashoffset:0}}
+main{max-width:980px;margin:auto;padding:16px}
+section{display:none}section.on{display:block}
+h2{margin:6px 0 12px;font-size:20px}
+button,.btn{background:var(--o);color:var(--n);border:0;border-radius:10px;padding:11px 16px;font:700 15px inherit;font-family:inherit;cursor:pointer;display:inline-block}
+button.s{background:var(--n3);color:var(--t);border:1px solid var(--o)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #fff;outline-offset:2px}
+input,textarea,select{width:100%;background:var(--n2);color:var(--t);border:1px solid var(--n3);border-radius:10px;padding:11px;font:inherit}
+label{display:block;margin:10px 0 4px;color:var(--m);font-size:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.card{background:var(--n2);border:1px solid var(--n3);border-radius:14px;padding:14px;margin:12px 0}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.th{background:var(--n2);border:1px solid var(--n3);border-radius:12px;overflow:hidden}
+.th img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#fff;display:block;cursor:pointer}
+.th div{padding:8px;font-size:12px;color:var(--m);word-break:break-all}
+.th button{margin:0 8px 8px 0;padding:6px 10px;font-size:12px}
+.empty{color:var(--m);padding:26px;border:2px dashed var(--n3);border-radius:14px;text-align:center}
+#cv{max-width:100%;background:#fff;border-radius:8px;touch-action:none;cursor:crosshair}
+.cvw{overflow:auto;max-height:70vh;background:var(--n2);border-radius:10px;padding:8px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--n2);border-top:3px solid var(--o);z-index:6}
+nav button{flex:1;background:none;color:var(--m);border-radius:0;padding:12px 2px;font-size:12px}
+nav button.on{color:var(--n);background:var(--o)}
+nav svg{display:block;margin:0 auto 2px}
+.pg{height:8px;background:var(--n3);border-radius:8px;overflow:hidden;margin:8px 0}
+.pg i{display:block;height:100%;width:0;background:var(--o);transition:width .2s}
+#msg{color:var(--m);font-size:14px}
+.rem{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.ok{color:var(--o);font-weight:700}
+@media (prefers-reduced-motion:reduce){.clip,.clip path{animation:none}}
 </style>
 </head>
 <body>
 <header>
-<svg class="clip" viewBox="0 0 24 24" fill="none" stroke="#F28F16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1 12.2 20.3a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
-<h1>ClipDoc</h1>
+  <svg class="clip" viewBox="0 0 34 42" fill="none" aria-hidden="true"><path d="M23 12v19a7 7 0 0 1-14 0V10a5 5 0 0 1 10 0v19a3 3 0 0 1-6 0V13" stroke="#F28F16" stroke-width="3" stroke-linecap="round"/></svg>
+  <h1>ARCH<small>PDF e Word para PNG</small></h1>
 </header>
 
-<section id="s-ed" class="on">
-<div class="card">
-<b>Editor de texto</b>
-<div class="tb">
-<button onclick="document.execCommand('bold')"><b>B</b></button>
-<button onclick="document.execCommand('italic')"><i>I</i></button>
-<button onclick="document.execCommand('underline')"><u>U</u></button>
-<button onclick="document.execCommand('insertUnorderedList')">• Lista</button>
-</div>
-<div id="ed" contenteditable="true"></div>
-<button class="p" onclick="saveLocal()">Salvar</button>
-<button class="p" onclick="toPDF()">Salvar PDF</button>
-<button class="p" onclick="toWord()">Salvar Word</button>
-<button class="p" onclick="toPNG()">Enviar à galeria (PNG)</button>
-</div>
-<div class="card">
-<b>Editor de imagem PNG</b><br>
-<label class="p">Abrir PNG<input type="file" accept="image/png,image/*" hidden onchange="openImg(this.files[0])"></label>
-<input type="color" id="cor" value="#F28F16" style="width:60px;height:40px">
-<input type="range" id="esp" min="1" max="30" value="5" style="width:120px">
-<button class="p" onclick="limpar()">Limpar</button>
-<button class="p" onclick="salvarPNG()">Baixar PNG</button>
-<button class="p" onclick="paraGaleria()">Galeria</button>
-<canvas id="cv" width="800" height="600"></canvas>
-<small>Desenhe/edite com o dedo.</small>
-</div>
+<main>
+<section id="galeria" class="on">
+  <h2>Galeria</h2>
+  <div class="card">
+    <div class="row">
+      <button id="bPasta">Escolher pasta (automático)</button>
+      <button class="s" id="bRescan">Atualizar agora</button>
+      <label class="btn s" style="margin:0;color:#fff;background:var(--n3);border:1px solid var(--o)">Escolher arquivos<input id="fi" type="file" accept=".pdf,.docx" multiple hidden></label>
+    </div>
+    <div id="msg">Escolha uma vez a pasta (cartão SD ou memória interna). Depois, o ARCH confere a pasta sempre que abrir e converte só o que for novo.</div>
+    <div class="pg"><i id="bar"></i></div>
+  </div>
+  <div id="grid"></div>
 </section>
 
-<section id="s-gal">
-<div class="card">
-<b>Conversor automático → PNG</b><br>
-<small>Escolha a pasta (memória interna ou cartão SD). Todos os PDF, Word e imagens dela são convertidos e aparecem na galeria.</small><br>
-<label class="p">Selecionar pasta<input type="file" webkitdirectory multiple hidden onchange="importar(this.files)"></label>
-<label class="p">Selecionar arquivos<input type="file" multiple accept=".pdf,.doc,.docx,image/*" hidden onchange="importar(this.files)"></label>
-<div id="st"></div>
-</div>
-<div id="gal"></div>
+<section id="editor">
+  <h2>Editor</h2>
+  <div class="card">
+    <div class="row">
+      <select id="tool" style="width:auto"><option value="pen">Caneta</option><option value="txt">Texto</option><option value="erase">Borracha</option></select>
+      <input id="cor" type="color" value="#F28F16" style="width:54px;padding:3px">
+      <input id="sz" type="range" min="2" max="40" value="5" style="width:110px">
+      <button class="s" id="undo">Desfazer</button>
+    </div>
+    <div class="row">
+      <button id="sPng">Salvar PNG</button>
+      <button id="sPdf">Salvar PDF</button>
+      <button id="sDoc">Salvar Word</button>
+      <button class="s" id="sGal">Guardar na galeria</button>
+    </div>
+  </div>
+  <div class="cvw"><canvas id="cv" width="800" height="600"></canvas></div>
+  <p id="edMsg" class="empty">Toque em uma imagem da galeria para editar.</p>
 </section>
 
-<section id="s-lem">
-<div class="card">
-<b>Novo lembrete</b>
-<input id="lt" placeholder="Título">
-<input id="ld" type="datetime-local">
-<button class="p" onclick="addLem()">Criar lembrete</button>
-<div id="ll"></div>
-</div>
+<section id="lembretes">
+  <h2>Lembretes</h2>
+  <div class="card">
+    <label for="rt">O que lembrar</label><input id="rt" placeholder="Ex.: revisar contrato.pdf">
+    <label for="rd">Data e hora</label><input id="rd" type="datetime-local">
+    <div class="row"><button id="rAdd">Criar lembrete</button></div>
+    <div id="rMsg" style="color:var(--m);font-size:14px">As notificações funcionam com o ARCH aberto ou instalado como app.</div>
+  </div>
+  <div id="rList"></div>
 </section>
 
-<section id="s-inf">
-<div class="card">
-<b>Informações</b>
-<textarea id="info" rows="6" placeholder="Escreva suas informações aqui"></textarea>
-<button class="p" onclick="saveInfo()">Salvar</button>
-</div>
-<div class="card">
-<b>Formulário de e-mail</b>
-<input id="em" type="email" placeholder="Para: e-mail">
-<input id="as" placeholder="Assunto">
-<textarea id="ms" rows="4" placeholder="Mensagem"></textarea>
-<button class="p" onclick="enviarEmail()">Enviar e-mail</button>
-</div>
+<section id="backup">
+  <h2>Backup no TeraBox</h2>
+  <div class="card">
+    <label for="tbMail">Conta do TeraBox (e-mail)</label><input id="tbMail" type="email" placeholder="voce@email.com">
+    <label for="tbPasta">Pasta no TeraBox</label><input id="tbPasta" placeholder="ARCH-backup">
+    <div class="row"><button id="tbSave">Vincular backup</button><span id="tbSt"></span></div>
+  </div>
+  <div class="card">
+    <p style="margin-top:0">O ARCH gera um arquivo ZIP com todos os PNG, os lembretes e as informações, e abre o TeraBox para você enviá-lo à pasta vinculada.</p>
+    <div class="row"><button id="tbGo">Fazer backup agora</button></div>
+    <div id="tbMsg" style="color:var(--m);font-size:14px"></div>
+  </div>
 </section>
 
-<section id="s-bk">
-<div class="card">
-<b>Backup no TeraBox</b>
-<p><small>O TeraBox não tem API pública aberta. O app gera o arquivo de backup e abre o app do TeraBox para você enviar à sua pasta (ex.: <b>ClipDoc-Backup</b>).</small></p>
-<input id="pasta" value="ClipDoc-Backup">
-<button class="p" onclick="backupArquivo()">Gerar backup (.json)</button>
-<button class="p" onclick="abrirTera()">Abrir TeraBox</button>
-</div>
-<div class="card">
-<b>Backup na nuvem (Supabase)</b>
-<input id="su" placeholder="URL do projeto Supabase (https://xxx.supabase.co)">
-<input id="sk" placeholder="Chave anon/public">
-<input id="stb" value="backups" placeholder="Tabela">
-<button class="p" onclick="salvarCfg()">Salvar configuração</button>
-<button class="p" onclick="backupNuvem()">Fazer backup agora</button>
-<div id="bst"></div>
-<small>Tabela com colunas: id (uuid), criado (timestamptz default now()), dados (jsonb). Firebase e MySQL precisam de um servidor/endereço próprio; peça e eu adapto.</small>
-</div>
+<section id="info">
+  <h2>Informações</h2>
+  <div class="card">
+    <label for="inf">Anotações</label><textarea id="inf" rows="6" placeholder="Escreva aqui..."></textarea>
+    <div class="row"><button id="infSave">Salvar</button><span id="infSt" class="ok"></span></div>
+  </div>
+  <div class="card">
+    <h2 style="font-size:17px">Enviar por e-mail</h2>
+    <label for="eTo">Para</label><input id="eTo" type="email">
+    <label for="eAs">Assunto</label><input id="eAs">
+    <label for="eMs">Mensagem</label><textarea id="eMs" rows="4"></textarea>
+    <div class="row"><button id="eGo">Abrir no e-mail</button></div>
+  </div>
 </section>
+</main>
 
-<nav>
-<button class="on" onclick="go('ed',this)">✏️ Editar</button>
-<button onclick="go('gal',this)">🖼️ Galeria</button>
-<button onclick="go('lem',this)">⏰ Lembretes</button>
-<button onclick="go('inf',this)">ℹ️ Info</button>
-<button onclick="go('bk',this)">☁️ Backup</button>
+<nav id="nav">
+  <button data-s="galeria" class="on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>Galeria</button>
+  <button data-s="editor"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Editor</button>
+  <button data-s="lembretes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21h4"/></svg>Lembretes</button>
+  <button data-s="backup"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 20h16"/></svg>Backup</button>
+  <button data-s="info"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>Infos</button>
 </nav>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-const $=id=>document.getElementById(id);
-const L={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{alert('Armazenamento cheio')}}};
-function go(n,b){document.querySelectorAll('section').forEach(s=>s.classList.remove('on'));$('s-'+n).classList.add('on');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');if(n=='gal')drawGal()}
-function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
-
-/* IndexedDB galeria */
-let db;const rq=indexedDB.open('clipdoc',1);
-rq.onupgradeneeded=e=>e.target.result.createObjectStore('g',{keyPath:'id',autoIncrement:true});
-rq.onsuccess=e=>{db=e.target.result;drawGal()};
-const dbAll=()=>new Promise(r=>{db.transaction('g').objectStore('g').getAll().onsuccess=e=>r(e.target.result)});
-const dbAdd=o=>new Promise(r=>{db.transaction('g','readwrite').objectStore('g').add(o).onsuccess=r});
-const dbDel=i=>new Promise(r=>{db.transaction('g','readwrite').objectStore('g').delete(i).onsuccess=r});
-async function drawGal(){if(!db)return;const a=await dbAll();$('gal').innerHTML=a.map(o=>`<div class="gi"><img src="${o.d}" onclick="abrirNoEditor(${o.id})"><b onclick="apagar(${o.id})">✕</b></div>`).join('')||'<small>Galeria vazia.</small>'}
-async function apagar(i){await dbDel(i);drawGal()}
-async function abrirNoEditor(i){const a=await dbAll();const o=a.find(x=>x.id==i);const im=new Image();im.onload=()=>{cv.width=im.width;cv.height=im.height;cx.drawImage(im,0,0);go('ed',document.querySelector('nav button'));scrollTo(0,document.body.scrollHeight)};im.src=o.d}
-
-/* Conversor */
-async function importar(files){
- files=[...files];let n=0;
- for(const f of files){
-  const nm=f.name.toLowerCase();$('st').textContent=`Convertendo ${++n}/${files.length}: ${f.name}`;
-  try{
-   if(nm.endsWith('.pdf')){
-    const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
-    for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p);const vp=pg.getViewport({scale:1.5});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;await dbAdd({n:f.name+'_p'+p,d:c.toDataURL('image/png')})}
-   }else if(nm.endsWith('.docx')){
-    const r=await mammoth.convertToHtml({arrayBuffer:await f.arrayBuffer()});
-    const d=document.createElement('div');d.style.cssText='position:fixed;left:-9999px;width:700px;background:#fff;color:#000;padding:30px';d.innerHTML=r.value;document.body.appendChild(d);
-    const c=await html2canvas(d,{backgroundColor:'#fff'});d.remove();await dbAdd({n:f.name,d:c.toDataURL('image/png')});
-   }else if(f.type.startsWith('image/')){
-    const d=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});await dbAdd({n:f.name,d});
-   }
-  }catch(e){console.error(e)}
- }
- $('st').textContent=`Concluído: ${files.length} arquivo(s).`;drawGal();
-}
-
-/* Editor de texto */
-$('ed').innerHTML=L.get('doc','');
-function saveLocal(){L.set('doc',$('ed').innerHTML);alert('Salvo!')}
-async function toCanvas(){return html2canvas($('ed'),{backgroundColor:'#fff'})}
-async function toPDF(){const c=await toCanvas();const {jsPDF}=window.jspdf;const p=new jsPDF('p','mm','a4');const w=190,h=c.height*w/c.width;p.addImage(c.toDataURL('image/png'),'PNG',10,10,w,h);p.save('documento.pdf')}
-function toWord(){const h='<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body>'+$('ed').innerHTML+'</body></html>';dl(new Blob(['\ufeff',h],{type:'application/msword'}),'documento.doc')}
-async function toPNG(){const c=await toCanvas();await dbAdd({n:'texto',d:c.toDataURL('image/png')});alert('Enviado à galeria');}
-
-/* Editor de imagem */
-const cv=$('cv'),cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,800,600);
-let dr=false;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const LS={g:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+/* ---------- IndexedDB ---------- */
+const db=new Promise(r=>{const q=indexedDB.open('arch',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)});
+const kv=async(m,k,v)=>{const d=await db;if(!d)return;return new Promise(r=>{const t=d.transaction('kv',m==='get'||m==='all'?'readonly':'readwrite').objectStore('kv');const x=m==='get'?t.get(k):m==='set'?t.put(v,k):m==='del'?t.delete(k):t.getAll();x.onsuccess=()=>r(x.result);x.onerror=()=>r()})};
+let imgs=[]; // {id,name,src}
+async function loadImgs(){imgs=(await kv('all'))?.filter(x=>x&&x.src)||[];draw()}
+/* ---------- navegação ---------- */
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.s));$$('nav button').forEach(x=>x.classList.toggle('on',x===b))};
+const go=id=>$(`nav [data-s=${id}]`).click();
+/* ---------- galeria ---------- */
+function draw(){const g=$('#grid');if(!imgs.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum PNG ainda. Escolha uma pasta ou arquivos PDF e Word para converter.</div>';return}
+g.innerHTML='';imgs.sort((a,b)=>a.id<b.id?-1:1).forEach(it=>{const d=document.createElement('div');d.className='th';d.innerHTML=`<img alt=""><div></div>`;d.querySelector('img').src=it.src;d.querySelector('div').textContent=it.name;d.querySelector('img').onclick=()=>openEd(it);
+const e=document.createElement('button');e.className='s';e.textContent='Editar';e.onclick=()=>openEd(it);const x=document.createElement('button');x.className='s';x.textContent='Excluir';x.onclick=async()=>{await kv('del',it.id);imgs=imgs.filter(i=>i!==it);draw()};d.append(e,x);g.append(d)})}
+const msg=t=>$('#msg').textContent=t,bar=p=>$('#bar').style.width=p+'%';
+async function addImg(id,name,src){if(imgs.some(i=>i.id===id))return;const it={id,name,src};imgs.push(it);await kv('set',id,it);draw()}
+async function pdfWorker(){if(pdfjsLib.GlobalWorkerOptions.workerSrc)return;try{const r=await fetch('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([await r.text()],{type:'text/javascript'}))}catch(e){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}}
+async function convPdf(file,key){await pdfWorker();const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p),vp=pg.getViewport({scale:2}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;await addImg(`${key}#${p}`,`${file.name} – pág. ${p}`,c.toDataURL('image/png'))}}
+async function convDocx(file,key){const r=await mammoth.convertToHtml({arrayBuffer:await file.arrayBuffer()});const box=document.createElement('div');box.style.cssText='position:fixed;left:-9999px;top:0;width:794px;padding:48px;background:#fff;color:#000;font:16px/1.5 serif';box.innerHTML=r.value;document.body.append(box);
+const full=await html2canvas(box,{backgroundColor:'#fff',scale:1.5});box.remove();const H=Math.round(full.width*1.414);const n=Math.max(1,Math.ceil(full.height/H));
+for(let i=0;i<n;i++){const c=document.createElement('canvas');c.width=full.width;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,H);x.drawImage(full,0,i*H,full.width,H,0,0,full.width,H);await addImg(`${key}#${i+1}`,`${file.name} – pág. ${i+1}`,c.toDataURL('image/png'))}}
+async function convert(list){let i=0;for(const {file,key} of list){i++;msg(`Convertendo ${i} de ${list.length}: ${file.name}`);bar(Math.round(i/list.length*100));try{if(/\.pdf$/i.test(file.name))await convPdf(file,key);else await convDocx(file,key)}catch(e){msg('Não foi possível converter '+file.name)}}msg(list.length?`Pronto: ${list.length} arquivo(s) convertido(s).`:'Tudo em dia. Nenhum arquivo novo.');bar(list.length?100:0)}
+async function walk(dir,path=''){const out=[];for await(const [n,h] of dir.entries()){if(h.kind==='directory')out.push(...await walk(h,path+n+'/'));else if(/\.(pdf|docx)$/i.test(n)&&!n.startsWith('~$')){const f=await h.getFile();out.push({file:f,key:`${path}${n}|${f.size}|${f.lastModified}`})}}return out}
+async function scan(){const h=await kv('get','dir');if(!h)return msg('Escolha uma pasta para ativar a conversão automática.');
+try{let p=await h.queryPermission({mode:'read'});if(p!=='granted'){msg('Toque em "Atualizar agora" para liberar a pasta.');return}
+const all=await walk(h);const novos=all.filter(a=>!imgs.some(i=>i.id.startsWith(a.key+'#')));await convert(novos)}catch(e){msg('Não consegui ler a pasta. Escolha-a novamente.')}}
+$('#bPasta').onclick=async()=>{if(!window.showDirectoryPicker)return msg('Este navegador não permite escolher pastas. Use "Escolher arquivos" ou o app instalado (APK).');
+try{const h=await showDirectoryPicker({mode:'read'});await kv('set','dir',h);scan()}catch(e){}};
+$('#bRescan').onclick=async()=>{const h=await kv('get','dir');if(!h)return msg('Escolha uma pasta primeiro.');try{await h.requestPermission({mode:'read'})}catch(e){}scan()};
+$('#fi').onchange=e=>convert([...e.target.files].map(f=>({file:f,key:`${f.name}|${f.size}|${f.lastModified}`})));
+/* ---------- editor ---------- */
+const cv=$('#cv'),cx=cv.getContext('2d');let cur=null,hist=[],drawing=false,lx=0,ly=0;
+function openEd(it){cur=it;const im=new Image();im.onload=()=>{cv.width=im.width;cv.height=im.height;cx.drawImage(im,0,0);hist=[cx.getImageData(0,0,cv.width,cv.height)];$('#edMsg').style.display='none';go('editor')};im.src=it.src}
 const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
-cv.onpointerdown=e=>{dr=true;cx.beginPath();cx.moveTo(...pos(e))};
-cv.onpointermove=e=>{if(!dr)return;cx.lineTo(...pos(e));cx.strokeStyle=$('cor').value;cx.lineWidth=$('esp').value;cx.lineCap='round';cx.stroke()};
-cv.onpointerup=()=>dr=false;
-function openImg(f){const im=new Image();im.onload=()=>{cv.width=im.width;cv.height=im.height;cx.drawImage(im,0,0)};im.src=URL.createObjectURL(f)}
-function limpar(){cx.fillStyle='#fff';cx.fillRect(0,0,cv.width,cv.height)}
-function salvarPNG(){cv.toBlob(b=>dl(b,'imagem.png'))}
-async function paraGaleria(){await dbAdd({n:'edit',d:cv.toDataURL('image/png')});alert('Na galeria!')}
-
-/* Lembretes */
-let lem=L.get('lem',[]);
-function drawLem(){$('ll').innerHTML=lem.map((l,i)=>`<p>${l.t} — ${new Date(l.d).toLocaleString('pt-BR')} ${l.ok?'✅':''} <button class="p" onclick="lem.splice(${i},1);L.set('lem',lem);drawLem()">✕</button></p>`).join('')}
-async function addLem(){
- if(!$('lt').value||!$('ld').value)return alert('Preencha título e data');
- if('Notification' in window&&Notification.permission!=='granted')await Notification.requestPermission();
- lem.push({t:$('lt').value,d:$('ld').value,ok:false});L.set('lem',lem);drawLem();$('lt').value='';
-}
-function notify(t){if(Notification.permission==='granted'){navigator.serviceWorker?.getRegistration().then(r=>r?r.showNotification('⏰ ClipDoc',{body:t}):new Notification('⏰ ClipDoc',{body:t}))||new Notification('⏰ ClipDoc',{body:t})}else alert('⏰ '+t)}
-setInterval(()=>{let ch=false;lem.forEach(l=>{if(!l.ok&&new Date(l.d)<=new Date()){l.ok=true;ch=true;notify(l.t)}});if(ch){L.set('lem',lem);drawLem()}},15000);
-drawLem();
-
-/* Info e e-mail */
-$('info').value=L.get('info','');
-function saveInfo(){L.set('info',$('info').value);alert('Informações salvas!')}
-function enviarEmail(){location.href=`mailto:${encodeURIComponent($('em').value)}?subject=${encodeURIComponent($('as').value)}&body=${encodeURIComponent($('ms').value)}`}
-
-/* Backup */
-async function tudo(){return{criado:new Date().toISOString(),doc:L.get('doc',''),info:L.get('info',''),lembretes:lem,galeria:await dbAll()}}
-async function backupArquivo(){dl(new Blob([JSON.stringify(await tudo())],{type:'application/json'}),$('pasta').value+'-backup.json');alert('Agora envie o arquivo para a pasta "'+$('pasta').value+'" no TeraBox.')}
-function abrirTera(){location.href='https://www.terabox.com/main'}
-const cfg=L.get('cfg',{});$('su').value=cfg.u||'';$('sk').value=cfg.k||'';$('stb').value=cfg.t||'backups';
-function salvarCfg(){L.set('cfg',{u:$('su').value,k:$('sk').value,t:$('stb').value});alert('Configuração salva')}
-async function backupNuvem(){
- const c=L.get('cfg',{});if(!c.u)return alert('Configure o Supabase');
- $('bst').textContent='Enviando...';
- try{const r=await fetch(c.u+'/rest/v1/'+c.t,{method:'POST',headers:{apikey:c.k,Authorization:'Bearer '+c.k,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({dados:await tudo()})});
- $('bst').textContent=r.ok?'✅ Backup enviado!':'Erro '+r.status}catch(e){$('bst').textContent='Falha: '+e.message}
-}
+const snap=()=>{hist.push(cx.getImageData(0,0,cv.width,cv.height));if(hist.length>20)hist.shift()};
+cv.onpointerdown=e=>{if(!cur)return;[lx,ly]=pos(e);const t=$('#tool').value;
+if(t==='txt'){const s=prompt('Texto:');if(s){snap();cx.fillStyle=$('#cor').value;cx.font=`${$('#sz').value*4}px sans-serif`;cx.fillText(s,lx,ly)}return}
+drawing=true;snap();cv.setPointerCapture(e.pointerId)};
+cv.onpointermove=e=>{if(!drawing)return;const[x,y]=pos(e);cx.strokeStyle=$('#tool').value==='erase'?'#fff':$('#cor').value;cx.lineWidth=$('#sz').value*(cv.width/800);cx.lineCap='round';cx.beginPath();cx.moveTo(lx,ly);cx.lineTo(x,y);cx.stroke();lx=x;ly=y};
+cv.onpointerup=()=>drawing=false;
+$('#undo').onclick=()=>{if(hist.length>1){hist.pop();cx.putImageData(hist[hist.length-1],0,0)}};
+const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)};
+const base=()=>(cur?cur.name:'arch').replace(/\.(pdf|docx).*$/i,'').replace(/[^\w\-]+/g,'_');
+$('#sPng').onclick=()=>cur&&cv.toBlob(b=>dl(b,base()+'.png'));
+$('#sPdf').onclick=()=>{if(!cur)return;const {jsPDF}=window.jspdf;const o=cv.width>cv.height?'l':'p';const d=new jsPDF({orientation:o,unit:'px',format:[cv.width,cv.height]});d.addImage(cv.toDataURL('image/png'),'PNG',0,0,cv.width,cv.height);d.save(base()+'.pdf')};
+$('#sDoc').onclick=()=>{if(!cur)return;const h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body><img src="${cv.toDataURL('image/png')}" width="600"></body></html>`;dl(new Blob(['\ufeff',h],{type:'application/msword'}),base()+'.doc')};
+$('#sGal').onclick=async()=>{if(!cur)return;cur.src=cv.toDataURL('image/png');await kv('set',cur.id,cur);draw();alert('Guardado na galeria.')};
+/* ---------- lembretes ---------- */
+let rem=LS.g('rem',[]);
+function rDraw(){const l=$('#rList');l.innerHTML=rem.length?'':'<div class="empty">Nenhum lembrete. Crie o primeiro acima.</div>';rem.sort((a,b)=>a.at-b.at).forEach(r=>{const d=document.createElement('div');d.className='card rem';const t=document.createElement('div');t.innerHTML='<b></b><br><small style="color:var(--m)"></small>';t.querySelector('b').textContent=r.t;t.querySelector('small').textContent=new Date(r.at).toLocaleString('pt-BR')+(r.done?' – avisado':'');const b=document.createElement('button');b.className='s';b.textContent='Excluir';b.onclick=()=>{rem=rem.filter(x=>x!==r);LS.s('rem',rem);rDraw()};d.append(t,b);l.append(d)})}
+$('#rAdd').onclick=async()=>{const t=$('#rt').value.trim(),v=$('#rd').value;if(!t||!v)return $('#rMsg').textContent='Preencha o texto e a data.';
+if('Notification' in window&&Notification.permission==='default')await Notification.requestPermission();
+rem.push({t,at:new Date(v).getTime(),done:false});LS.s('rem',rem);$('#rt').value='';rDraw();$('#rMsg').textContent=('Notification' in window&&Notification.permission==='granted')?'Lembrete criado.':'Lembrete criado, mas as notificações estão bloqueadas neste aparelho.'};
+async function notify(t){if('Notification' in window&&Notification.permission==='granted'){try{const reg=await navigator.serviceWorker?.getRegistration();if(reg)return reg.showNotification('ARCH',{body:t});new Notification('ARCH',{body:t})}catch(e){new Notification('ARCH',{body:t})}}else alert('Lembrete: '+t)}
+setInterval(()=>{let ch=false;rem.forEach(r=>{if(!r.done&&r.at<=Date.now()){r.done=true;ch=true;notify(r.t)}});if(ch){LS.s('rem',rem);rDraw()}},15000);
+/* ---------- backup TeraBox ---------- */
+function tbDraw(){const c=LS.g('tb',{});$('#tbMail').value=c.m||'';$('#tbPasta').value=c.p||'';$('#tbSt').innerHTML=c.p?`<span class="ok">Vinculado a "${c.p.replace(/[<>&"]/g,'')}"</span>`:''}
+$('#tbSave').onclick=()=>{const p=$('#tbPasta').value.trim();if(!p)return $('#tbMsg').textContent='Informe o nome da pasta.';LS.s('tb',{m:$('#tbMail').value.trim(),p});tbDraw()};
+$('#tbGo').onclick=async()=>{const c=LS.g('tb',{});if(!c.p)return $('#tbMsg').textContent='Vincule a pasta do TeraBox primeiro.';
+$('#tbMsg').textContent='Gerando backup...';const z=new JSZip();imgs.forEach(i=>z.file(i.name.replace(/[^\w\-. ]+/g,'_')+'.png',i.src.split(',')[1],{base64:true}));
+z.file('lembretes.json',JSON.stringify(rem,null,1));z.file('informacoes.txt',LS.g('inf',''));
+const b=await z.generateAsync({type:'blob'});dl(b,`ARCH-backup-${new Date().toISOString().slice(0,10)}.zip`);
+$('#tbMsg').textContent=`ZIP baixado. Envie-o para a pasta "${c.p}" no TeraBox (abrindo agora).`;setTimeout(()=>window.open('https://www.terabox.com/main','_blank'),800)};
+/* ---------- infos / e-mail ---------- */
+$('#inf').value=LS.g('inf','');
+$('#infSave').onclick=()=>{LS.s('inf',$('#inf').value);$('#infSt').textContent='Salvo.';setTimeout(()=>$('#infSt').textContent='',2000)};
+$('#eGo').onclick=()=>{const to=$('#eTo').value.trim();if(!to)return;location.href=`mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent($('#eAs').value)}&body=${encodeURIComponent($('#eMs').value)}`};
+/* ---------- início ---------- */
+loadImgs().then(()=>{draw();scan()});rDraw();tbDraw();
 </script>
 </body>
 </html>
